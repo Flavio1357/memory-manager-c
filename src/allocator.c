@@ -3,6 +3,10 @@
 
 Block *allocate_first_fit(Block *memory, size_t size) {
 
+    if(memory == NULL || size == 0){
+        return NULL;
+    }
+
     Block *current = memory;
 
     while (current != NULL) {

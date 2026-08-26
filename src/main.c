@@ -74,6 +74,22 @@ int main(void) {
 
     block_print_all(memory);
 
+    printf("\n---------------------------------\n");
+    printf("Testando alocacao invalida...\n");
+    printf("---------------------------------\n");
+
+    if (allocate_first_fit(memory, 0) == NULL) {
+        printf("Teste 1: alocacao de 0 bytes rejeitada.\n");
+    } else {
+        printf("Teste 1: ERRO.\n");
+    }
+
+    if (allocate_first_fit(memory, 2000) == NULL) {
+        printf("Teste 2: alocacao maior que a memoria rejeitada.\n");
+    } else {
+        printf("Teste 2: ERRO.\n");
+    }
+
     memory_destroy(memory);
 
     return 0;
