@@ -40,6 +40,54 @@ Block *allocate_first_fit(Block *memory, size_t size) {
     return NULL;
 }
 
+
+Block *allocate_best_fit(Block *memory, size_t size) {
+
+    if (memory == NULL || size == 0) {
+        return NULL;
+    }
+
+    Block *current = memory;
+    Block *best = NULL;
+
+    while (current != NULL) {
+        if (current->free && current->size >= size) {
+
+            if (best == NULL || current->size < best->size) {
+                best = current;
+            }
+        }
+
+        current = current->next;
+    }
+
+    if (best == NULL) {
+        return NULL;
+    }
+
+    if (best->size > size) {
+
+        Block *new_block = block_create(
+            best->start + size,
+            best->size - size,
+            1
+        );
+
+        if (new_block == NULL) {
+            return NULL;
+        }
+
+        new_block->next = best->next;
+        best->next = new_block;
+    }
+
+    best->size = size;
+    best->free = 0;
+
+    return best;
+}
+
+
 Block *allocate(Block *memory, size_t size, AllocationStrategy strategy) {
 
     switch (strategy) {
@@ -48,7 +96,7 @@ Block *allocate(Block *memory, size_t size, AllocationStrategy strategy) {
             return allocate_first_fit(memory, size);
 
         case BEST_FIT:
-            return NULL;
+            return allocate_best_fit(memory, size);
 
         case WORST_FIT:
             return NULL;
@@ -57,6 +105,7 @@ Block *allocate(Block *memory, size_t size, AllocationStrategy strategy) {
             return NULL;
     }
 }
+
 
 int free_memory(Block *memory, size_t start) {
     Block *current = memory;
@@ -76,6 +125,7 @@ int free_memory(Block *memory, size_t start) {
 
     return 0;
 }
+
 
 void coalesce_blocks(Block *memory) {
     Block *current = memory;

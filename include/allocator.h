@@ -12,6 +12,8 @@ typedef enum {
 
 Block *allocate_first_fit(Block *memory, size_t size);
 
+Block *allocate_best_fit(Block *memory, size_t size);
+
 Block *allocate(Block *memory, size_t size, AllocationStrategy AllocationStrategy);
 
 int free_memory(Block *memory, size_t start);
