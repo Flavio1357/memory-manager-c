@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 #include "memory.h"
 #include "block.h"
 #include "allocator.h"
@@ -21,17 +20,34 @@ int main(void) {
     printf("Memoria inicial:\n");
     block_print_all(memory);
 
-    printf("\nAlocando 200 bytes...\n\n");
+    printf("\n---------------------------------\n");
+    printf("Alocando 200 bytes...\n");
+    printf("---------------------------------\n");
 
-    Block *allocated = allocate_first_fit(memory, 200);
-
-    if (allocated == NULL) {
-        printf("Erro: nao foi possivel alocar memoria.\n");
-    } else {
-        printf("Memoria alocada com sucesso!\n");
+    if (allocate_first_fit(memory, 200) != NULL) {
+        printf("200 bytes alocados com sucesso!\n");
     }
 
-    printf("\nMemoria apos alocacao:\n");
+    block_print_all(memory);
+
+    printf("\n---------------------------------\n");
+    printf("Alocando 300 bytes...\n");
+    printf("---------------------------------\n");
+
+    if (allocate_first_fit(memory, 300) != NULL) {
+        printf("300 bytes alocados com sucesso!\n");
+    }
+
+    block_print_all(memory);
+
+    printf("\n---------------------------------\n");
+    printf("Alocando 100 bytes...\n");
+    printf("---------------------------------\n");
+
+    if (allocate_first_fit(memory, 100) != NULL) {
+        printf("100 bytes alocados com sucesso!\n");
+    }
+
     block_print_all(memory);
 
     memory_destroy(memory);
