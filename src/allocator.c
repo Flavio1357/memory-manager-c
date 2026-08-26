@@ -88,6 +88,53 @@ Block *allocate_best_fit(Block *memory, size_t size) {
 }
 
 
+Block *allocate_worst_fit(Block *memory, size_t size) {
+
+    if (memory == NULL || size == 0) {
+        return NULL;
+    }
+
+    Block *current = memory;
+    Block *worst = NULL;
+
+    while (current != NULL) {
+        if (current->free && current->size >= size) {
+
+            if (worst == NULL || current->size > worst->size) {
+                worst = current;
+            }
+        }
+
+        current = current->next;
+    }
+
+    if (worst == NULL) {
+        return NULL;
+    }
+
+    if (worst->size > size) {
+
+        Block *new_block = block_create(
+            worst->start + size,
+            worst->size - size,
+            1
+        );
+
+        if (new_block == NULL) {
+            return NULL;
+        }
+
+        new_block->next = worst->next;
+        worst->next = new_block;
+    }
+
+    worst->size = size;
+    worst->free = 0;
+
+    return worst;
+}
+
+
 Block *allocate(Block *memory, size_t size, AllocationStrategy strategy) {
 
     switch (strategy) {
@@ -99,7 +146,7 @@ Block *allocate(Block *memory, size_t size, AllocationStrategy strategy) {
             return allocate_best_fit(memory, size);
 
         case WORST_FIT:
-            return NULL;
+            return allocate_worst_fit(memory, size);
 
         default:
             return NULL;
