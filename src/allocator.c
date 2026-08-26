@@ -35,3 +35,20 @@ Block *allocate_first_fit(Block *memory, size_t size) {
 
     return NULL;
 }
+
+int free_memory(Block *memory, size_t start) {
+    Block *current = memory;
+
+    while (current != NULL) {
+        if (current->start == start && !current->free) {
+
+            current->free = 1;
+
+            return 1;
+        }
+
+        current = current->next;
+    }
+
+    return 0;
+}

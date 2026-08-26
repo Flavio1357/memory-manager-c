@@ -50,6 +50,18 @@ int main(void) {
 
     block_print_all(memory);
 
+    printf("\n---------------------------------\n");
+    printf("Liberando bloco iniciado em 200...\n");
+    printf("---------------------------------\n");
+
+    if (free_memory(memory, 200)) {
+        printf("Memoria liberada com sucesso!\n");
+    } else {
+        printf("Erro: bloco nao encontrado.\n");
+    }
+
+    block_print_all(memory);
+
     memory_destroy(memory);
 
     return 0;
