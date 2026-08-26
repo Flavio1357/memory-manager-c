@@ -24,7 +24,7 @@ int main(void) {
     printf("Alocando 200 bytes...\n");
     printf("---------------------------------\n");
 
-    if (allocate_first_fit(memory, 200) != NULL) {
+    if (allocate(memory, 200, FIRST_FIT) != NULL) {
         printf("200 bytes alocados com sucesso!\n");
     }
 
@@ -34,7 +34,7 @@ int main(void) {
     printf("Alocando 300 bytes...\n");
     printf("---------------------------------\n");
 
-    if (allocate_first_fit(memory, 300) != NULL) {
+    if (allocate(memory, 300, FIRST_FIT) != NULL) {
         printf("300 bytes alocados com sucesso!\n");
     }
 
@@ -44,7 +44,7 @@ int main(void) {
     printf("Alocando 100 bytes...\n");
     printf("---------------------------------\n");
 
-    if (allocate_first_fit(memory, 100) != NULL) {
+    if (allocate(memory, 100, FIRST_FIT) != NULL) {
         printf("100 bytes alocados com sucesso!\n");
     }
 
@@ -78,13 +78,13 @@ int main(void) {
     printf("Testando alocacao invalida...\n");
     printf("---------------------------------\n");
 
-    if (allocate_first_fit(memory, 0) == NULL) {
+    if (allocate(memory, 0, FIRST_FIT) == NULL) {
         printf("Teste 1: alocacao de 0 bytes rejeitada.\n");
     } else {
         printf("Teste 1: ERRO.\n");
     }
 
-    if (allocate_first_fit(memory, 2000) == NULL) {
+    if (allocate(memory, 2000, FIRST_FIT) == NULL) { 
         printf("Teste 2: alocacao maior que a memoria rejeitada.\n");
     } else {
         printf("Teste 2: ERRO.\n");

@@ -40,6 +40,24 @@ Block *allocate_first_fit(Block *memory, size_t size) {
     return NULL;
 }
 
+Block *allocate(Block *memory, size_t size, AllocationStrategy strategy) {
+
+    switch (strategy) {
+
+        case FIRST_FIT:
+            return allocate_first_fit(memory, size);
+
+        case BEST_FIT:
+            return NULL;
+
+        case WORST_FIT:
+            return NULL;
+
+        default:
+            return NULL;
+    }
+}
+
 int free_memory(Block *memory, size_t start) {
     Block *current = memory;
 
