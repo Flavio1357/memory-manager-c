@@ -15,4 +15,6 @@ Block *block_create(size_t start, size_t size, int free);
 
 void block_print(const Block *block);
 
+void block_print_all(const Block *head);
+
 #endif
