@@ -7,4 +7,6 @@ Block *allocate_first_fit(Block *memory, size_t size);
 
 int free_memory(Block *memory, size_t start);
 
+void coalesce_blocks(Block *memory);
+
 #endif

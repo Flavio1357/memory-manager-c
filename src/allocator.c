@@ -44,6 +44,8 @@ int free_memory(Block *memory, size_t start) {
 
             current->free = 1;
 
+            coalesce_blocks(memory);
+
             return 1;
         }
 
@@ -51,4 +53,24 @@ int free_memory(Block *memory, size_t start) {
     }
 
     return 0;
+}
+
+void coalesce_blocks(Block *memory) {
+    Block *current = memory;
+
+    while (current != NULL && current->next != NULL){
+        if(current->free && current->next->free){
+
+            Block *next = current->next;
+
+            current->size += next->size;
+            current->next = next->next;
+
+            free(next);
+
+        }else{
+
+            current = current->next;
+        }
+    }
 }
