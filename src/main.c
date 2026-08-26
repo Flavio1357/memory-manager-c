@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "memory.h"
+#include "block.h"
 
 int main(void) {
 
@@ -12,11 +13,11 @@ int main(void) {
 
     printf("=================================\n");
     printf("        MEMORY MANAGER\n");
-    printf("=================================\n");
+    printf("=================================\n\n");
 
-    printf("Inicio: %zu\n", memory->start);
-    printf("Tamanho: %zu bytes\n", memory->size);
-    printf("Estado: %s\n", memory->free ? "LIVRE" : "OCUPADO");
+    printf("Blocos de memoria:\n");
+
+    block_print_all(memory);
 
     memory_destroy(memory);
 

@@ -25,3 +25,13 @@ void block_print(const Block *block){
 
     printf("Inicio: %zu | Tamanho: %zu | Estado: %s\n", block->start, block->size, block->free ? "LIVRE" : "OCUPADO");
 }
+
+void block_print_all(const Block *head){
+    const Block *current = head;
+
+    while (current != NULL){
+
+        block_print(current);
+        current = current->next;
+    }
+}
