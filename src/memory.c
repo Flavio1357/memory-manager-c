@@ -2,16 +2,8 @@
 #include "memory.h"
 
 Block *memory_init(void) {
-    Block *memory = malloc(sizeof(Block));
-
-    if(memory == NULL){
-        return NULL;
-    }
-
-    memory->start = 0;
-    memory->size = MEMORY_SIZE;
-    memory->free = 1;
-    memory->next = NULL;
+    
+    Block *memory = block_create(0, MEMORY_SIZE, 1);
 
     return memory;
 }
