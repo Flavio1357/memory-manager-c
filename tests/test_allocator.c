@@ -169,6 +169,96 @@ void test_coalescing(void) {
     memory_destroy(memory);
 }
 
+
+void test_invalid_allocation(void) {
+
+    Block *memory = memory_init();
+
+    if (memory == NULL) {
+        printf("[FAIL] Invalid Allocation: memoria nao inicializada.\n");
+        return;
+    }
+
+    Block *block = allocate(memory, 0, FIRST_FIT);
+
+    if (block == NULL) {
+        printf("[PASS] Invalid Allocation - zero bytes\n");
+    } else {
+        printf("[FAIL] Invalid Allocation - zero bytes\n");
+    }
+
+    memory_destroy(memory);
+}
+
+void test_allocation_too_large(void) {
+
+    Block *memory = memory_init();
+
+    if (memory == NULL) {
+        printf("[FAIL] Too Large: memoria nao inicializada.\n");
+        return;
+    }
+
+    Block *block = allocate(memory, 1025, FIRST_FIT);
+
+    if (block == NULL) {
+        printf("[PASS] Allocation Too Large\n");
+    } else {
+        printf("[FAIL] Allocation Too Large\n");
+    }
+
+    memory_destroy(memory);
+}
+
+
+void test_invalid_free(void) {
+
+    Block *memory = memory_init();
+
+    if (memory == NULL) {
+        printf("[FAIL] Invalid Free: memoria nao inicializada.\n");
+        return;
+    }
+
+    if (free_memory(memory, 9999) == 0) {
+        printf("[PASS] Invalid Free\n");
+    } else {
+        printf("[FAIL] Invalid Free\n");
+    }
+
+    memory_destroy(memory);
+}
+
+void test_double_free(void) {
+
+    Block *memory = memory_init();
+
+    if (memory == NULL) {
+        printf("[FAIL] Double Free: memoria nao inicializada.\n");
+        return;
+    }
+
+    Block *block = allocate(memory, 200, FIRST_FIT);
+
+    if (block == NULL) {
+        printf("[FAIL] Double Free: alocacao inicial falhou.\n");
+        memory_destroy(memory);
+        return;
+    }
+
+    int first_free = free_memory(memory, 0);
+    int second_free = free_memory(memory, 0);
+
+    if (first_free == 1 && second_free == 0) {
+        printf("[PASS] Double Free Protection\n");
+    } else {
+        printf("[FAIL] Double Free Protection\n");
+    }
+
+    memory_destroy(memory);
+}
+
+
 int main(void) {
 
     printf("=================================\n");
@@ -180,6 +270,11 @@ int main(void) {
     test_worst_fit();
     test_free_memory();
     test_coalescing();
+
+    test_invalid_allocation();
+    test_allocation_too_large();
+    test_invalid_free();
+    test_double_free();
 
     return 0;
 }
